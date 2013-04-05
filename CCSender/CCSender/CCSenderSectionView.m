@@ -70,12 +70,13 @@
     UIViewController *popVC = [[UIViewController alloc] init];
     self.window.rootViewController = popVC;
     [self.window makeKeyAndVisible];
-
+    [popVC.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, 500)];
     UIView *phoneView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [popVC.view addSubview:phoneView];
     [UIView animateWithDuration:0.5f animations:^{
-        [popVC.view setCenter:CGPointMake(300, 300)];
-        [phoneView setBackgroundColor:[UIColor yellowColor]];
+        [popVC.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2)];
+        [phoneView setBackgroundColor:[UIColor whiteColor]];
+        [phoneView setAlpha:0.8];
     }];
     
 
@@ -119,7 +120,7 @@
         switch (result) {
             case SLComposeViewControllerResultCancelled:
                 output = @"Action Cancelled";
-                [self.window resignKeyWindow];
+                 [self.window resignKeyWindow];
                  [self.window resignFirstResponder];
                  [self.window removeFromSuperview];
                  [self.window setUserInteractionEnabled:NO];
