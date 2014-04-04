@@ -58,23 +58,20 @@
     [self.weibo addTarget:self action:@selector(weiboAction) forControlEvents:UIControlEventTouchUpInside];
 }
 
-#pragma mark - there are 3 methods waiting for Meirtz
+#pragma mark - there are 2 methods waiting for Meirtz
 
 - (void)phoneAction{
     
 }
 
 - (void)smsAction{
-    UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    window.windowLevel = UIWindowLevelAlert;
-    
+    if (self.window == NULL) {
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    }
+    self.window.windowLevel = UIWindowLevelAlert;
     UIViewController *popVC = [[UIViewController alloc] init];
-    
-    window.rootViewController = popVC;
-    
-    [window makeKeyAndVisible];
-    
-    
+    self.window.rootViewController = popVC;
+    [self.window makeKeyAndVisible];
     MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
     picker.messageComposeDelegate = self;
     picker.body=@"BC你好!";
@@ -88,7 +85,12 @@
 #pragma mark - Message Delegate
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result{
-    [controller dismissViewControllerAnimated:YES completion:nil];
+    [controller dismissViewControllerAnimated:YES completion:^(void){
+        [self.window resignKeyWindow];
+        [self.window resignFirstResponder];
+        [self.window removeFromSuperview];
+    }];
+    [self becomeFirstResponder];
 }
 
 #pragma mark - layout

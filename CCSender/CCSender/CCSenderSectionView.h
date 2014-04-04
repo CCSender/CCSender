@@ -15,5 +15,5 @@
     UIView *_separator;
 }
 @property (strong, nonatomic) UIButton *sms,*phone,*weibo;
-
+@property (strong, nonatomic) UIWindow *window;
 @end
