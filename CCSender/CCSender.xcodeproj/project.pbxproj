@@ -1,0 +1,346 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FE3DCCBA18EED693001F2338 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3DCCB918EED693001F2338 /* Foundation.framework */; };
+		FE3DCCBC18EED693001F2338 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3DCCBB18EED693001F2338 /* UIKit.framework */; };
+		FE3DCCCD18EED693001F2338 /* CCSenderSection.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3DCCCC18EED693001F2338 /* CCSenderSection.m */; };
+		FE3DCCD018EED693001F2338 /* CCSenderSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3DCCCF18EED693001F2338 /* CCSenderSectionView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FE3DCCB618EED693001F2338 /* CCSender.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCSender.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE3DCCB918EED693001F2338 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FE3DCCBB18EED693001F2338 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		FE3DCCC018EED693001F2338 /* control.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = control.txt; path = Package/DEBIAN/control.txt; sourceTree = "<group>"; };
+		FE3DCCC118EED693001F2338 /* control */ = {isa = PBXFileReference; lastKnownFileType = text; name = control; path = Package/DEBIAN/control; sourceTree = "<group>"; };
+		FE3DCCC318EED693001F2338 /* PackageVersion.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PackageVersion.plist; sourceTree = "<group>"; };
+		FE3DCCC718EED693001F2338 /* CCSender.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = CCSender.plist; path = Package/Library/PreferenceLoader/Preferences/CCSender.plist; sourceTree = "<group>"; };
+		FE3DCCC818EED693001F2338 /* CCSenderIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CCSenderIcon.png; path = Package/Library/PreferenceLoader/Preferences/CCSenderIcon.png; sourceTree = "<group>"; };
+		FE3DCCC918EED693001F2338 /* CCSenderIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CCSenderIcon@2x.png"; path = "Package/Library/PreferenceLoader/Preferences/CCSenderIcon@2x.png"; sourceTree = "<group>"; };
+		FE3DCCCA18EED693001F2338 /* CCSender-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCSender-Prefix.pch"; sourceTree = "<group>"; };
+		FE3DCCCB18EED693001F2338 /* CCSenderSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCSenderSection.h; sourceTree = "<group>"; };
+		FE3DCCCC18EED693001F2338 /* CCSenderSection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCSenderSection.m; sourceTree = "<group>"; };
+		FE3DCCCE18EED693001F2338 /* CCSenderSectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCSenderSectionView.h; sourceTree = "<group>"; };
+		FE3DCCCF18EED693001F2338 /* CCSenderSectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCSenderSectionView.m; sourceTree = "<group>"; };
+		FE3DCCD118EED693001F2338 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FE3DCCD218EED693001F2338 /* CCSection-Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCSection-Protocol.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FE3DCCB218EED693001F2338 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE3DCCBA18EED693001F2338 /* Foundation.framework in Frameworks */,
+				FE3DCCBC18EED693001F2338 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FE3DCCAC18EED693001F2338 = {
+			isa = PBXGroup;
+			children = (
+				FE3DCCBD18EED693001F2338 /* CCSender */,
+				FE3DCCB818EED693001F2338 /* Frameworks */,
+				FE3DCCB718EED693001F2338 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FE3DCCB718EED693001F2338 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FE3DCCB618EED693001F2338 /* CCSender.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FE3DCCB818EED693001F2338 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FE3DCCB918EED693001F2338 /* Foundation.framework */,
+				FE3DCCBB18EED693001F2338 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FE3DCCBD18EED693001F2338 /* CCSender */ = {
+			isa = PBXGroup;
+			children = (
+				FE3DCCCB18EED693001F2338 /* CCSenderSection.h */,
+				FE3DCCCC18EED693001F2338 /* CCSenderSection.m */,
+				FE3DCCCE18EED693001F2338 /* CCSenderSectionView.h */,
+				FE3DCCCF18EED693001F2338 /* CCSenderSectionView.m */,
+				FE3DCCD218EED693001F2338 /* CCSection-Protocol.h */,
+				FE3DCCBE18EED693001F2338 /* Package */,
+				FE3DCCC218EED693001F2338 /* Supporting Files */,
+			);
+			path = CCSender;
+			sourceTree = "<group>";
+		};
+		FE3DCCBE18EED693001F2338 /* Package */ = {
+			isa = PBXGroup;
+			children = (
+				FE3DCCBF18EED693001F2338 /* DEBIAN */,
+				FE3DCCC418EED693001F2338 /* Library */,
+			);
+			name = Package;
+			sourceTree = "<group>";
+		};
+		FE3DCCBF18EED693001F2338 /* DEBIAN */ = {
+			isa = PBXGroup;
+			children = (
+				FE3DCCC018EED693001F2338 /* control.txt */,
+				FE3DCCC118EED693001F2338 /* control */,
+			);
+			name = DEBIAN;
+			sourceTree = "<group>";
+		};
+		FE3DCCC218EED693001F2338 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FE3DCCC318EED693001F2338 /* PackageVersion.plist */,
+				FE3DCCCA18EED693001F2338 /* CCSender-Prefix.pch */,
+				FE3DCCD118EED693001F2338 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FE3DCCC418EED693001F2338 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				FE3DCCC518EED693001F2338 /* PreferenceLoader */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		FE3DCCC518EED693001F2338 /* PreferenceLoader */ = {
+			isa = PBXGroup;
+			children = (
+				FE3DCCC618EED693001F2338 /* Preferences */,
+			);
+			name = PreferenceLoader;
+			sourceTree = "<group>";
+		};
+		FE3DCCC618EED693001F2338 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				FE3DCCC718EED693001F2338 /* CCSender.plist */,
+				FE3DCCC818EED693001F2338 /* CCSenderIcon.png */,
+				FE3DCCC918EED693001F2338 /* CCSenderIcon@2x.png */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		FE3DCCB318EED693001F2338 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		FE3DCCB518EED693001F2338 /* CCSender */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FE3DCCD518EED693001F2338 /* Build configuration list for PBXNativeTarget "CCSender" */;
+			buildPhases = (
+				FE3DCCB118EED693001F2338 /* Sources */,
+				FE3DCCB218EED693001F2338 /* Frameworks */,
+				FE3DCCB318EED693001F2338 /* Headers */,
+				FE3DCCB418EED693001F2338 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CCSender;
+			productName = CCSender;
+			productReference = FE3DCCB618EED693001F2338 /* CCSender.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FE3DCCAD18EED693001F2338 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+			};
+			buildConfigurationList = FE3DCCB018EED693001F2338 /* Build configuration list for PBXProject "CCSender" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FE3DCCAC18EED693001F2338;
+			productRefGroup = FE3DCCB718EED693001F2338 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FE3DCCB518EED693001F2338 /* CCSender */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FE3DCCB418EED693001F2338 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FE3DCCB118EED693001F2338 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE3DCCCD18EED693001F2338 /* CCSenderSection.m in Sources */,
+				FE3DCCD018EED693001F2338 /* CCSenderSectionView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		FE3DCCD318EED693001F2338 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = NO;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Debug;
+		};
+		FE3DCCD418EED693001F2338 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Release;
+		};
+		FE3DCCD618EED693001F2338 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCSender/CCSender-Prefix.pch";
+				INFOPLIST_FILE = CCSender/Info.plist;
+				INSTALL_PATH = /Library/CCLoader/Bundles;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Debug;
+		};
+		FE3DCCD718EED693001F2338 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCSender/CCSender-Prefix.pch";
+				INFOPLIST_FILE = CCSender/Info.plist;
+				INSTALL_PATH = /Library/CCLoader/Bundles;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = bundle;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FE3DCCB018EED693001F2338 /* Build configuration list for PBXProject "CCSender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE3DCCD318EED693001F2338 /* Debug */,
+				FE3DCCD418EED693001F2338 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FE3DCCD518EED693001F2338 /* Build configuration list for PBXNativeTarget "CCSender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE3DCCD618EED693001F2338 /* Debug */,
+				FE3DCCD718EED693001F2338 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FE3DCCAD18EED693001F2338 /* Project object */;
+}
