@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <sys/utsname.h>
 
-@interface CCSenderSectionView : UIView
+@interface CCSenderSectionView : UIView{
+    UIView *_separator;
+}
+@property (strong, nonatomic) UIButton *sms,*phone,*weibo;
 
 @end
