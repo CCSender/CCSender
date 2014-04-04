@@ -72,6 +72,7 @@
 }
 
 - (void)controlCenterWillAppear {
+<<<<<<< HEAD
 /*<<<<<<< HEAD
  
     UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -93,6 +94,9 @@
 =======
     // don't animate here
 >>>>>>> FETCH_HEAD*/
+=======
+
+>>>>>>> FETCH_HEAD
 }
 
 - (void)controlCenterDidDisappear {
