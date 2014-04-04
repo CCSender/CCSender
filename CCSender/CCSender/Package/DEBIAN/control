@@ -1,6 +1,6 @@
 Package: com.ra1ndrops.CCSender
 Name: CCSender
-Version: 0.1-1
+Version: 1.0-1
 Description: 
 Section: Addons (ControlCenter)
 Depends: de.j-gessner.ccloader, firmware (>= 7.0)
