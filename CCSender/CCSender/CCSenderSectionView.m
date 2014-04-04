@@ -90,6 +90,7 @@
         [self.window resignFirstResponder];
         [self.window removeFromSuperview];
     }];
+    [self becomeFirstResponder];
 }
 
 #pragma mark - layout
