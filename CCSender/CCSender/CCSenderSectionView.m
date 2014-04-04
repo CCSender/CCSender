@@ -89,8 +89,10 @@
         [self.window resignKeyWindow];
         [self.window resignFirstResponder];
         [self.window removeFromSuperview];
+        [self.window setUserInteractionEnabled:NO];
     }];
-    [self becomeFirstResponder];
+    [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
+    [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
 }
 
 #pragma mark - layout
