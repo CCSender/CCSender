@@ -80,7 +80,7 @@
     
     window.rootViewController = popVC;
     
-    [window makeKeyAndVisible];
+    //[window makeKeyAndVisible];
     
     //UIView *popV = [[UIView alloc] init];
     
@@ -88,7 +88,7 @@
     MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
     picker.messageComposeDelegate = self;
     picker.body=@"lalal";
-    [popVC presentModalViewController:picker animated:YES];
+    //[popVC presentModalViewController:picker animated:YES];*/
 }
 
 - (void)controlCenterDidDisappear {
