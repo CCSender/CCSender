@@ -74,7 +74,7 @@
     [self.window makeKeyAndVisible];
     MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
     picker.messageComposeDelegate = self;
-    picker.body=@"梅子粉你好!";
+    picker.body=@"BC你好!";
     [popVC presentViewController:picker animated:YES completion:nil];
 }
 
