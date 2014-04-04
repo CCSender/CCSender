@@ -21,9 +21,9 @@
 #endif
 
 #import "CCSenderSection.h"
-#import <MessageUI/MessageUI.h>
 
-@interface CCSenderSection () <MFMessageComposeViewControllerDelegate>
+
+@interface CCSenderSection () 
 
 @property (nonatomic, CC_Strong) NSBundle *bundle;
 @property (nonatomic, CC_Strong) CCSenderSectionView *view;
@@ -72,28 +72,10 @@
 }
 
 - (void)controlCenterWillAppear {
- 
-    UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    window.windowLevel = UIWindowLevelAlert;
-    
-    UIViewController *popVC = [[UIViewController alloc] init];
-    
-    window.rootViewController = popVC;
-    
-    [window makeKeyAndVisible];
-    
-    //UIView *popV = [[UIView alloc] init];
-    
-
-    MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
-    picker.messageComposeDelegate = self;
-    picker.body=@"lalal";
-    [popVC presentModalViewController:picker animated:YES];
+    // don't animate here
 }
 
 - (void)controlCenterDidDisappear {
-    
-    
     
     
 }

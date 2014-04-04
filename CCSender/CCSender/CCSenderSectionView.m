@@ -50,6 +50,12 @@
     [self.weibo setTitleColor:[UIColor colorWithWhite:0.0f alpha:0.7f] forState:UIControlStateNormal];
     [self.weibo setBackgroundImage:highlighted forState:UIControlStateHighlighted];
     [self addSubview:self.weibo];
+    
+    if ([self isiPhone]) {
+        [self.phone addTarget:self action:@selector(phoneAction) forControlEvents:UIControlEventTouchUpInside];
+    }
+    [self.sms addTarget:self action:@selector(smsAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.weibo addTarget:self action:@selector(weiboAction) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - there are 3 methods waiting for Meirtz
@@ -59,11 +65,30 @@
 }
 
 - (void)smsAction{
+    UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    window.windowLevel = UIWindowLevelAlert;
     
+    UIViewController *popVC = [[UIViewController alloc] init];
+    
+    window.rootViewController = popVC;
+    
+    [window makeKeyAndVisible];
+    
+    
+    MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
+    picker.messageComposeDelegate = self;
+    picker.body=@"梅子粉你好!";
+    [popVC presentViewController:picker animated:YES completion:nil];
 }
 
 - (void)weiboAction{
     
+}
+
+#pragma mark - Message Delegate
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result{
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - layout
