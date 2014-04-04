@@ -7,6 +7,7 @@
 //
 
 #import "CCSenderSectionView.h"
+#import <Social/Social.h>
 
 @implementation CCSenderSectionView
 
@@ -79,6 +80,34 @@
 }
 
 - (void)weiboAction{
+    
+    SLComposeViewController *slComposerSheet;
+    
+    [slComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
+        NSLog(@"start completion block");
+        NSString *output;
+        switch (result) {
+            case SLComposeViewControllerResultCancelled:
+                output = @"Action Cancelled";
+                break;
+            case SLComposeViewControllerResultDone:
+                output = @"Post Successfull";
+                break;
+            default:
+                break;
+        }
+        if (result != SLComposeViewControllerResultCancelled)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Weibo Message" message:output delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
+    
+    slComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
+    [slComposerSheet setInitialText:@"BC你好"];
+    //[slComposerSheet addImage:self.sharingImage];
+    [slComposerSheet addURL:[NSURL URLWithString:@"http://www.weibo.com/"]];
+    [self presentViewController:slComposerSheet animated:YES completion:nil];
     
 }
 
