@@ -72,7 +72,7 @@
 }
 
 - (void)controlCenterWillAppear {
-<<<<<<< HEAD
+/*<<<<<<< HEAD
  
     UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     window.windowLevel = UIWindowLevelAlert;
@@ -89,10 +89,10 @@
     MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
     picker.messageComposeDelegate = self;
     picker.body=@"lalal";
-    //[popVC presentModalViewController:picker animated:YES];*/
+    //[popVC presentModalViewController:picker animated:YES];
 =======
     // don't animate here
->>>>>>> FETCH_HEAD
+>>>>>>> FETCH_HEAD*/
 }
 
 - (void)controlCenterDidDisappear {
