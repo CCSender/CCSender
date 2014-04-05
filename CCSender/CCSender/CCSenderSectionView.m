@@ -7,7 +7,7 @@
 //
 
 #import "CCSenderSectionView.h"
-#import <Social/Social.h>
+
 
 @implementation CCSenderSectionView
 
@@ -79,6 +79,103 @@
         [phoneView setAlpha:0.8];
     }];
     
+    UIScrollView *phoneScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height*2)];
+    phoneScrollView.pagingEnabled = NO;
+    phoneScrollView.showsVerticalScrollIndicator = YES;
+    phoneScrollView.delegate = self;
+    [popVC.view addSubview:phoneScrollView];
+    
+    
+    
+    ABAddressBookRef addressBook = nil;
+    
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 6.0)
+    {
+        addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
+        //等待同意后向下执行
+        dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error)
+                                                 {
+                                                     dispatch_semaphore_signal(sema);
+                                                 });
+        
+        dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+        //dispatch_release(sema);
+    }
+    
+    CFArrayRef results = ABAddressBookCopyArrayOfAllPeople(addressBook);
+    
+    NSLog(@"%@" ,results);
+    
+    int peopleCount = CFArrayGetCount(results);
+    
+    for (int i=0; i<peopleCount; i++)
+    {
+        ABRecordRef record = CFArrayGetValueAtIndex(results, i);
+        
+        NSLog(@"%@" ,record);
+        
+        NSString *fn,*ln,*fullname;
+        fn = ln = fullname = nil;
+        
+        CFTypeRef vtmp = NULL;
+        
+        vtmp = ABRecordCopyValue(record, kABPersonFirstNameProperty);
+        if (vtmp)
+        {
+            fn = [NSString stringWithString:(__bridge NSString *)(vtmp)];
+            
+            CFRelease(vtmp);
+            vtmp = NULL;
+        }
+        vtmp = ABRecordCopyValue(record, kABPersonLastNameProperty);
+        if (vtmp)
+        {
+            ln = [NSString stringWithString:(__bridge NSString *)(vtmp)];
+            
+            CFRelease(vtmp);
+            vtmp = NULL;
+        }
+        
+        NSLog(@"%@ ,%@" ,fn ,ln);
+        
+        // 读取电话
+        ABMultiValueRef phones = ABRecordCopyValue(record, kABPersonPhoneProperty);
+        int phoneCount = ABMultiValueGetCount(phones);
+        
+        for (int j=0; j<phoneCount; j++)
+        {
+            // label
+            CFStringRef lable = ABMultiValueCopyLabelAtIndex(phones, j);
+            // phone number
+            CFStringRef phonenumber = ABMultiValueCopyValueAtIndex(phones, j);
+            
+            // localize label
+            CFStringRef ll = ABAddressBookCopyLocalizedLabel(lable);
+            
+            NSLog(@"\t%@ ,%@,%@" ,(__bridge NSString *)lable ,(__bridge NSString *)ll,(__bridge NSString *)phonenumber);
+            
+            if (ll)
+                CFRelease(ll);
+            if (lable)
+                CFRelease(lable);
+            if (phonenumber)
+                CFRelease(phonenumber);
+        }
+        
+        if (phones)
+            CFRelease(phones);
+        
+        record = NULL;
+    }
+    
+    if (results)
+        CFRelease(results);
+    results = nil;
+    
+    if (addressBook)
+        CFRelease(addressBook);
+    addressBook = NULL;
 }
 
 - (void)smsAction{
