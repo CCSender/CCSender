@@ -145,6 +145,11 @@
     }
     [self.sms addTarget:self action:@selector(smsAction) forControlEvents:UIControlEventTouchUpInside];
     [self.weibo addTarget:self action:@selector(weiboAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    });
 }
 
 - (void)ExtraCellLineHidden: (UITableView *)tableView{
@@ -178,11 +183,6 @@
 #pragma mark - there are 2 methods waiting for Meirtz
 
 - (void)phoneAction{
-    
-    if (self.window == NULL) {
-        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    }
-    
 
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -378,6 +378,7 @@
 }
 
 - (void)smsAction{
+    
     UIViewController *popVC1 = [[UIViewController alloc] init];
     self.window.rootViewController = popVC1;
     [self activeWindow];
