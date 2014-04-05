@@ -63,9 +63,6 @@
 
 - (void)phoneAction{
     
-}
-
-- (void)smsAction{
     if (self.window == NULL) {
         self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     }
@@ -73,6 +70,29 @@
     UIViewController *popVC = [[UIViewController alloc] init];
     self.window.rootViewController = popVC;
     [self.window makeKeyAndVisible];
+
+    UIView *phoneView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [popVC.view addSubview:phoneView];
+    [UIView animateWithDuration:0.5f animations:^{
+        [popVC.view setCenter:CGPointMake(300, 300)];
+        [phoneView setBackgroundColor:[UIColor yellowColor]];
+    }];
+    
+
+    
+}
+
+- (void)smsAction{
+    if (self.window == NULL) {
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    }
+    
+    
+    self.window.windowLevel = UIWindowLevelAlert;
+    UIViewController *popVC = [[UIViewController alloc] init];
+    self.window.rootViewController = popVC;
+    [self.window makeKeyAndVisible];
+   
     MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
     picker.messageComposeDelegate = self;
     picker.body=@"BC你好!";
@@ -81,7 +101,17 @@
 
 - (void)weiboAction{
     
-    SLComposeViewController *slComposerSheet;
+    
+    if (self.window == NULL) {
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    }
+    self.window.windowLevel = UIWindowLevelAlert;
+    UIViewController *popVC = [[UIViewController alloc] init];
+    self.window.rootViewController = popVC;
+    [self.window makeKeyAndVisible];
+
+    
+    SLComposeViewController *slComposerSheet = [[SLComposeViewController alloc] init];
     
     [slComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
         NSLog(@"start completion block");
@@ -89,9 +119,21 @@
         switch (result) {
             case SLComposeViewControllerResultCancelled:
                 output = @"Action Cancelled";
+                [self.window resignKeyWindow];
+                 [self.window resignFirstResponder];
+                 [self.window removeFromSuperview];
+                 [self.window setUserInteractionEnabled:NO];
+                 [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
+                 [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
                 break;
             case SLComposeViewControllerResultDone:
                 output = @"Post Successfull";
+                [self.window resignKeyWindow];
+                 [self.window resignFirstResponder];
+                 [self.window removeFromSuperview];
+                 [self.window setUserInteractionEnabled:NO];
+                 [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
+                 [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
                 break;
             default:
                 break;
@@ -103,11 +145,13 @@
         }
     }];
     
+    
     slComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
     [slComposerSheet setInitialText:@"BC你好"];
     //[slComposerSheet addImage:self.sharingImage];
-    [slComposerSheet addURL:[NSURL URLWithString:@"http://www.weibo.com/"]];
-    [self presentViewController:slComposerSheet animated:YES completion:nil];
+    
+    //[slComposerSheet addURL:[NSURL URLWithString:@"http://www.weibo.com/"]];
+    [popVC presentViewController:slComposerSheet animated:YES completion:nil];
     
 }
 
@@ -123,6 +167,7 @@
     [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
     [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
 }
+
 
 #pragma mark - layout
 
