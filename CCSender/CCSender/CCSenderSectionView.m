@@ -392,25 +392,29 @@
     UIViewController *popVC = [[UIViewController alloc] init];
     self.window.rootViewController = popVC;
     [self activeWindow];
-    SLComposeViewController *slComposerSheet = [[SLComposeViewController alloc] init];
     
+    SLComposeViewController* slComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
+    [slComposerSheet setInitialText:@"BC已哭→←_→←"];
     [slComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
+        [self deactiveWindow];
+        [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
+        [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
+        
         NSLog(@"start completion block");
         NSString *output;
         switch (result) {
             case SLComposeViewControllerResultCancelled:{
                 output = @"Action Cancelled";
-                [self deactiveWindow];
+                
                 break;
             }
             case SLComposeViewControllerResultDone:{
                 output = @"Post Successfull";
-                [self deactiveWindow];
                 break;
             }
-            default:
-                [self deactiveWindow];
+            default:{
                 break;
+            }
         }
         if (result != SLComposeViewControllerResultCancelled)
         {
@@ -418,13 +422,6 @@
             [alert show];
         }
     }];
-    
-    
-    slComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
-    [slComposerSheet setInitialText:@"BC已哭→←_→←"];
-    //[slComposerSheet addImage:self.sharingImage];
-    
-    //[slComposerSheet addURL:[NSURL URLWithString:@"http://www.weibo.com/"]];
     [popVC presentViewController:slComposerSheet animated:YES completion:nil];
     
 }
