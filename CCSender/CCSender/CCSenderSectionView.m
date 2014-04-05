@@ -146,7 +146,7 @@
     
     
     slComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
-    [slComposerSheet setInitialText:@"BC你好"];
+    [slComposerSheet setInitialText:@"BC已哭→←_→←"];
     //[slComposerSheet addImage:self.sharingImage];
     
     //[slComposerSheet addURL:[NSURL URLWithString:@"http://www.weibo.com/"]];
