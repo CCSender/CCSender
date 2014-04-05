@@ -452,9 +452,15 @@
 #pragma mark - UIAlert
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {
-        [self dismissPhone];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",self.row]]];
+    if (buttonIndex == 1) {
+        [UIView animateWithDuration:0.1f delay:0.0f options:UIViewAnimationCurveLinear animations:^(void){
+            [self.window setAlpha:0.0f];
+        } completion:^(BOOL fi){
+            [self deactiveWindow];
+        }];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",self.row]]];
+        });
     }
 }
 
