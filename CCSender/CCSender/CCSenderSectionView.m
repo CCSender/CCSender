@@ -78,8 +78,6 @@
         [phoneView setBackgroundColor:[UIColor yellowColor]];
     }];
     
-
-    
 }
 
 - (void)smsAction{

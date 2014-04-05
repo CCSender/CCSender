@@ -58,18 +58,11 @@
     return _view;
 }
 
-- (void)dealloc {
-#if MRC
-    [self.view release];
-#endif
+- (void)dealloc{
     self.view = nil;
     self.bundle = nil;
-    
-    
-#if MRC
-    [super dealloc];
-#endif
 }
+
 
 - (void)controlCenterWillAppear {
 
