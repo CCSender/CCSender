@@ -8,6 +8,14 @@
 
 #import "CCSenderSectionView.h"
 
+@interface SBControlCenterController : UIViewController
++(id)sharedInstance;
+-(void)_dismissWithDuration:(double)duration additionalAnimations:(id)animations completion:(id)completion;
+-(void)dismissAnimated:(BOOL)animated withAdditionalAnimations:(id)additionalAnimations completion:(id)completion;
+-(void)dismissAnimated:(BOOL)animated completion:(id)completion;
+-(void)dismissAnimated:(BOOL)animated;
+@end
+
 
 @implementation CCSenderSectionView
 
@@ -221,7 +229,9 @@
 
     static dispatch_once_t onceToken1;
     dispatch_once(&onceToken1, ^{
-        self.conTable = [[UITableView alloc] initWithFrame:self.popVC.view.frame style:UITableViewStylePlain];
+        CGRect rect = self.popVC.view.frame;
+        rect.size.height -= 64;
+        self.conTable = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
         UISearchBar * searchBar = [[UISearchBar alloc] init];
         searchBar.frame = CGRectMake(0, 0, self.conTable.bounds.size.width, 0);
         searchBar.delegate = self;
@@ -458,7 +468,10 @@
         } completion:^(BOOL fi){
             [self deactiveWindow];
         }];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        Class SBControlCenterController = NSClassFromString(@"SBControlCenterController");
+        id cc = [SBControlCenterController sharedInstance];
+        [cc dismissAnimated:YES completion:nil];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",self.row]]];
         });
     }
