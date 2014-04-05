@@ -14,7 +14,9 @@
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 
-@interface CCSenderSectionView : UIView<MFMessageComposeViewControllerDelegate, UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UISearchDisplayDelegate> {
+#define levelOffset 1500.0f
+
+@interface CCSenderSectionView : UIView<MFMessageComposeViewControllerDelegate, UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UISearchDisplayDelegate,UIAlertViewDelegate> {
     UIView *_separator;
 }
 @property (strong, nonatomic) UITableView *conTable;
@@ -23,4 +25,5 @@
 @property (strong, nonatomic) NSMutableArray *myPhone,*search;
 @property (strong, nonatomic) UINavigationController *navi;
 @property (strong, nonatomic) UIViewController *popVC;
+@property (strong, nonatomic) NSString * row;
 @end
