@@ -214,10 +214,7 @@
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissPhone)];
         self.popVC.navigationItem.rightBarButtonItem = rightItem;
         
-        self.popVC.edgesForExtendedLayout = UIRectEdgeNone;
-        self.popVC.extendedLayoutIncludesOpaqueBars =NO;
-        self.popVC.modalPresentationCapturesStatusBarAppearance =NO;
-        self.popVC.navigationController.navigationBar.translucent =NO;
+        
          [self.popVC.view addSubview:phoneView];
        
     });
@@ -275,7 +272,10 @@
               [self.window setAlpha:1.0f];
     } completion:nil];
     
-    
+    self.popVC.edgesForExtendedLayout = UIRectEdgeNone;
+    self.popVC.extendedLayoutIncludesOpaqueBars =NO;
+    self.popVC.modalPresentationCapturesStatusBarAppearance =NO;
+    self.popVC.navigationController.navigationBar.translucent =NO;
     ABAddressBookRef addressBook = nil;
     
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 6.0)
