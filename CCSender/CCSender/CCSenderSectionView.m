@@ -153,6 +153,28 @@
     [tableView setTableFooterView:view];
 }
 
+- (void)activeWindow{
+    self.window.windowLevel = UIWindowLevelAlert;
+    [self.window makeKeyAndVisible];
+    [self.window becomeFirstResponder];
+    [self.window setHidden:NO];
+    [self.window setAlpha:1.0f];
+    [self.window setUserInteractionEnabled:YES];
+    //[self.window setScreen:[UIScreen mainScreen]];
+}
+
+- (void)deactiveWindow{
+    //self.window.windowLevel = UIWindowLevelNormal - 100;
+    //[self.window removeFromSuperview];
+    [self.window resignFirstResponder];
+    [self.window resignKeyWindow];
+    [self.window setHidden:YES];
+    [self.window setAlpha:0.0f];
+    [self.window setUserInteractionEnabled:NO];
+    [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
+    [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
+}
+
 #pragma mark - there are 2 methods waiting for Meirtz
 
 - (void)phoneAction{
@@ -160,36 +182,36 @@
     if (self.window == NULL) {
         self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     }
-    self.window.windowLevel = UIWindowLevelAlert;
-    self.popVC = [[UIViewController alloc] init];
-    self.navi = [[UINavigationController alloc] initWithRootViewController:self.popVC];
-    self.window.rootViewController = self.navi;
-    [self.window makeKeyAndVisible];
     
-    [self.navi.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2)];
-    UIView *phoneView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [self.popVC.view addSubview:phoneView];
-    [UIView animateWithDuration:0.5f animations:^{
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        self.popVC = [[UIViewController alloc] init];
+        self.navi = [[UINavigationController alloc] initWithRootViewController:self.popVC];
+        [self.navi.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2)];
+        UIView *phoneView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        [self.popVC.view addSubview:phoneView];
         [self.popVC.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2)];
         [phoneView setBackgroundColor:[UIColor whiteColor]];
         [phoneView setAlpha:0.8];
-    }];
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissPhone)];
+        self.popVC.navigationItem.rightBarButtonItem = rightItem;
+        
+        self.popVC.edgesForExtendedLayout = UIRectEdgeNone;
+        self.popVC.extendedLayoutIncludesOpaqueBars =NO;
+        self.popVC.modalPresentationCapturesStatusBarAppearance =NO;
+        self.popVC.navigationController.navigationBar.translucent =NO;
+    });
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissPhone)];
-    self.popVC.navigationItem.rightBarButtonItem = rightItem;
     
-    self.popVC.edgesForExtendedLayout = UIRectEdgeNone;
-    self.popVC.extendedLayoutIncludesOpaqueBars =NO;
-    self.popVC.modalPresentationCapturesStatusBarAppearance =NO;
-    self.popVC.navigationController.navigationBar.translucent =NO;
-
-    
+    self.window.rootViewController = self.navi;
     if (self.myPhone == NULL) {
         self.myPhone = [[NSMutableArray alloc] init];
     }
     [self.myPhone removeAllObjects];
 
-    if (self.conTable == nil) {
+    static dispatch_once_t onceToken1;
+    dispatch_once(&onceToken1, ^{
         self.conTable = [[UITableView alloc] initWithFrame:self.popVC.view.frame style:UITableViewStylePlain];
         UISearchBar * searchBar = [[UISearchBar alloc] init];
         searchBar.frame = CGRectMake(0, 0, self.conTable.bounds.size.width, 0);
@@ -206,16 +228,23 @@
         [self.conTable setBackgroundView:view];
         [self ExtraCellLineHidden:self.conTable];
         self.conTable.tableHeaderView = searchBar;
-    }
+    });
     [self.window setAlpha:0.0f];
-    [UIView animateWithDuration:0.3f delay:0.0 options:UIViewAnimationCurveLinear animations:^(void){
-        [self.conTable setDataSource:self];
-        [self.conTable setDelegate:self];
+    [self.conTable setDataSource:self];
+    [self.conTable setDelegate:self];
+    if (![[self.popVC.view subviews] containsObject:self.conTable]) {
         [self.popVC.view addSubview:self.conTable];
-        [self.window setScreen:[UIScreen mainScreen]];
+    };
+    
+    self.window.windowLevel = UIWindowLevelAlert;
+    [self.window makeKeyAndVisible];
+    [self.window becomeFirstResponder];
+    [self.window setHidden:NO];
+    [self.window setAlpha:0.0f];
+    [self.window setUserInteractionEnabled:YES];
+    
+    [UIView animateWithDuration:0.3f delay:0.0 options:UIViewAnimationCurveLinear animations:^(void){
         [self.window setAlpha:1.0f];
-        [self.window setHidden:NO];
-        [self.window setUserInteractionEnabled:YES];
     } completion:nil];
     
     
@@ -331,20 +360,16 @@
 }
 
 - (void)dismissPhone{
-    [self.popVC.navigationItem setRightBarButtonItem:nil animated:NO];
+    //[self.popVC.navigationItem setRightBarButtonItem:nil animated:NO];
+    //[self.popVC removeFromParentViewController];
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationCurveLinear animations:^(void){
-        [self.popVC removeFromParentViewController];
         [self.window setAlpha:0.0f];
-        [self.window setUserInteractionEnabled:NO];
-        [self.window resignKeyWindow];
-        [self.window resignFirstResponder];
-        [self.window removeFromSuperview];
-        [self.window setUserInteractionEnabled:NO];
-    } completion:nil];
+        
+    } completion:^(BOOL fi){
+        [self deactiveWindow];
+    }];
     
-    
-    [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
-    [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
+
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.search removeAllObjects];
         [self.myPhone removeAllObjects];
@@ -353,64 +378,37 @@
 }
 
 - (void)smsAction{
-    if (self.window == NULL) {
-        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    }
-    
-    
-    self.window.windowLevel = UIWindowLevelAlert;
-    UIViewController *popVC = [[UIViewController alloc] init];
-    self.window.rootViewController = popVC;
-    [self.window makeKeyAndVisible];
-     [self.window setScreen:[UIScreen mainScreen]];
-    [self.window setHidden:NO];
-    [self.window setAlpha:1.0f];
-    [self.window setUserInteractionEnabled:YES];
+    UIViewController *popVC1 = [[UIViewController alloc] init];
+    self.window.rootViewController = popVC1;
+    [self activeWindow];
     MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
     picker.messageComposeDelegate = self;
     picker.body=@"BC你好!";
-    [popVC presentViewController:picker animated:YES completion:nil];
+    [popVC1 presentViewController:picker animated:YES completion:nil];
 }
 
 - (void)weiboAction{
-    
-    
-    if (self.window == NULL) {
-        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    }
-    self.window.windowLevel = UIWindowLevelAlert;
     UIViewController *popVC = [[UIViewController alloc] init];
     self.window.rootViewController = popVC;
-    [self.window makeKeyAndVisible];
-    [self.window setScreen:[UIScreen mainScreen]];
-    [self.window setHidden:NO];
-    [self.window setAlpha:1.0f];
-    [self.window setUserInteractionEnabled:YES];
+    [self activeWindow];
     SLComposeViewController *slComposerSheet = [[SLComposeViewController alloc] init];
     
     [slComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
         NSLog(@"start completion block");
         NSString *output;
         switch (result) {
-            case SLComposeViewControllerResultCancelled:
+            case SLComposeViewControllerResultCancelled:{
                 output = @"Action Cancelled";
-                 [self.window resignKeyWindow];
-                 [self.window resignFirstResponder];
-                 [self.window removeFromSuperview];
-                 [self.window setUserInteractionEnabled:NO];
-                 [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
-                 [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
+                [self deactiveWindow];
                 break;
-            case SLComposeViewControllerResultDone:
+            }
+            case SLComposeViewControllerResultDone:{
                 output = @"Post Successfull";
-                [self.window resignKeyWindow];
-                 [self.window resignFirstResponder];
-                 [self.window removeFromSuperview];
-                 [self.window setUserInteractionEnabled:NO];
-                 [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
-                 [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
+                [self deactiveWindow];
                 break;
+            }
             default:
+                [self deactiveWindow];
                 break;
         }
         if (result != SLComposeViewControllerResultCancelled)
@@ -434,10 +432,12 @@
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result{
     [controller dismissViewControllerAnimated:YES completion:^(void){
-        [self.window resignKeyWindow];
         [self.window resignFirstResponder];
-        [self.window removeFromSuperview];
+        [self.window resignKeyWindow];
+        [self.window setHidden:YES];
+        [self.window setAlpha:0.0f];
         [self.window setUserInteractionEnabled:NO];
+        
     }];
     [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
     [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
