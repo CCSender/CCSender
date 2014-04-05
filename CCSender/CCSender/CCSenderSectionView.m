@@ -79,8 +79,6 @@
         [phoneView setAlpha:0.8];
     }];
     
-
-    
 }
 
 - (void)smsAction{
