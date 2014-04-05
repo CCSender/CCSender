@@ -205,9 +205,9 @@
     dispatch_once(&onceToken, ^{
         self.popVC = [[UIViewController alloc] init];
         self.navi = [[UINavigationController alloc] initWithRootViewController:self.popVC];
+        [self.navi setTitle:@"联系人"];
         [self.navi.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2)];
         UIView *phoneView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        [self.popVC.view addSubview:phoneView];
         [self.popVC.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2)];
         [phoneView setBackgroundColor:[UIColor whiteColor]];
         [phoneView setAlpha:0.8];
@@ -218,6 +218,8 @@
         self.popVC.extendedLayoutIncludesOpaqueBars =NO;
         self.popVC.modalPresentationCapturesStatusBarAppearance =NO;
         self.popVC.navigationController.navigationBar.translucent =NO;
+         [self.popVC.view addSubview:phoneView];
+       
     });
     
     
@@ -229,9 +231,7 @@
 
     static dispatch_once_t onceToken1;
     dispatch_once(&onceToken1, ^{
-        CGRect rect = self.popVC.view.frame;
-        rect.size.height -= 64;
-        self.conTable = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
+       
         UISearchBar * searchBar = [[UISearchBar alloc] init];
         searchBar.frame = CGRectMake(0, 0, self.conTable.bounds.size.width, 0);
         searchBar.delegate = self;
@@ -250,14 +250,17 @@
         [self.conTable setBackgroundView:view];
         [self ExtraCellLineHidden:self.conTable];
         self.conTable.tableHeaderView = searchBar;
+        if (![[self.popVC.view subviews] containsObject:self.conTable]) {
+            [self.popVC.view addSubview:self.conTable];
+        };
+
     });
+    [self.popVC.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height+300)];
     [self.window setAlpha:0.0f];
     
     [self.conTable setDataSource:self];
     [self.conTable setDelegate:self];
-    if (![[self.popVC.view subviews] containsObject:self.conTable]) {
-        [self.popVC.view addSubview:self.conTable];
-    };
+    
     
     self.window.windowLevel = UIWindowLevelNormal+levelOffset;
     [self.window makeKeyAndVisible];
@@ -267,7 +270,9 @@
     [self.window setUserInteractionEnabled:YES];
     
     [UIView animateWithDuration:0.3f delay:0.0 options:UIViewAnimationCurveLinear animations:^(void){
-        [self.window setAlpha:1.0f];
+        
+        [self.popVC.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2)];
+              [self.window setAlpha:1.0f];
     } completion:nil];
     
     
