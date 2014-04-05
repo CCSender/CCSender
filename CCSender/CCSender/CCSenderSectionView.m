@@ -97,6 +97,14 @@
     return 1;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([self.conTable tag]==222) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",[[self.search objectAtIndex:indexPath.row] valueForKey:@"number"]]]];
+    }else{
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",[[self.myPhone objectAtIndex:indexPath.row] valueForKey:@"number"]]]];
+    }
+}
+
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -378,7 +386,6 @@
 }
 
 - (void)smsAction{
-    
     UIViewController *popVC1 = [[UIViewController alloc] init];
     self.window.rootViewController = popVC1;
     [self activeWindow];
@@ -399,7 +406,6 @@
         [self deactiveWindow];
         [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
         [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
-        
         NSLog(@"start completion block");
         NSString *output;
         switch (result) {
