@@ -14,10 +14,13 @@
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 
-@interface CCSenderSectionView : UIView<MFMessageComposeViewControllerDelegate, UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource> {
+@interface CCSenderSectionView : UIView<MFMessageComposeViewControllerDelegate, UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UISearchDisplayDelegate> {
     UIView *_separator;
 }
 @property (strong, nonatomic) UITableView *conTable;
 @property (strong, nonatomic) UIButton *sms,*phone,*weibo;
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) NSMutableArray *myPhone,*search;
+@property (strong, nonatomic) UINavigationController *navi;
+@property (strong, nonatomic) UIViewController *popVC;
 @end

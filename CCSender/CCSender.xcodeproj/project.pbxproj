@@ -12,6 +12,7 @@
 		FE3DCCBC18EED693001F2338 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3DCCBB18EED693001F2338 /* UIKit.framework */; };
 		FE3DCCCD18EED693001F2338 /* CCSenderSection.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3DCCCC18EED693001F2338 /* CCSenderSection.m */; };
 		FE3DCCD018EED693001F2338 /* CCSenderSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3DCCCF18EED693001F2338 /* CCSenderSectionView.m */; };
+		FEA03B8118EFF0B2008B6818 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA03B8018EFF0B2008B6818 /* AddressBook.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		FE3DCCCF18EED693001F2338 /* CCSenderSectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCSenderSectionView.m; sourceTree = "<group>"; };
 		FE3DCCD118EED693001F2338 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FE3DCCD218EED693001F2338 /* CCSection-Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCSection-Protocol.h"; sourceTree = "<group>"; };
+		FEA03B8018EFF0B2008B6818 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEA03B8118EFF0B2008B6818 /* AddressBook.framework in Frameworks */,
 				AFB1B15818EF00F2000AABF4 /* Social.framework in Frameworks */,
 				FE3DCCBA18EED693001F2338 /* Foundation.framework in Frameworks */,
 				FE3DCCBC18EED693001F2338 /* UIKit.framework in Frameworks */,
@@ -68,6 +71,7 @@
 		FE3DCCB818EED693001F2338 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FEA03B8018EFF0B2008B6818 /* AddressBook.framework */,
 				AFB1B15718EF00F2000AABF4 /* Social.framework */,
 				FE3DCCB918EED693001F2338 /* Foundation.framework */,
 				FE3DCCBB18EED693001F2338 /* UIKit.framework */,

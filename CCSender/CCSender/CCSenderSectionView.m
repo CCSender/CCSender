@@ -11,6 +11,92 @@
 
 @implementation CCSenderSectionView
 
+@synthesize myPhone,conTable,search;
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    if(0 == searchText.length)
+    {
+        [self.search removeAllObjects];
+        [self.conTable reloadData];
+        return ;
+    }
+    [self.search removeAllObjects];
+    for(NSDictionary * str in self.myPhone)
+    {
+        if([[[str valueForKey:@"name"]lowercaseString] rangeOfString:[searchText lowercaseString]].length != 0 || [[[str valueForKey:@"number"]lowercaseString] rangeOfString:[searchText lowercaseString]].length != 0)
+        {
+            [self.search addObject:str];
+        }
+    }
+    [self.conTable setTag:222];
+    [self.conTable reloadData];
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self.search removeAllObjects];
+    NSString *searchText = searchBar.text;
+    for(NSDictionary * str in self.myPhone)
+    {
+        if([[[str valueForKey:@"name"]lowercaseString] rangeOfString:[searchText lowercaseString]].length != 0 || [[[str valueForKey:@"number"]lowercaseString] rangeOfString:[searchText lowercaseString]].length != 0)
+        {
+            [self.search addObject: str];
+        }
+    }
+    [self.conTable setTag:222];
+    [self.conTable reloadData];
+    [searchBar resignFirstResponder];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (tableView.tag == 222) {
+        return self.search.count;
+    }
+    [self.search removeAllObjects];
+    return self.myPhone.count;
+}
+
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    [searchBar setShowsCancelButton:YES animated:YES];
+    self.conTable.allowsSelection=YES;
+    self.conTable.scrollEnabled=YES;
+    self.conTable.tag = 222;
+    [self.search removeAllObjects];
+    [self.conTable reloadData];
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    searchBar.text=@"";
+    [searchBar setShowsCancelButton:NO animated:YES];
+    [searchBar resignFirstResponder];
+    self.conTable.allowsSelection=YES;
+    self.conTable.scrollEnabled=YES;
+    self.conTable.tag = 0;
+    [self.conTable reloadData];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CCSender"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"CCSender"];
+        [cell setBackgroundView:nil];
+        [cell setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.3]];
+    }
+    if (tableView.tag == 222) {
+        [cell.textLabel setText:[[self.search objectAtIndex:indexPath.row] valueForKey:@"name"]];
+        [cell.detailTextLabel setText:[[self.search objectAtIndex:indexPath.row] valueForKey:@"number"]];
+        return cell;
+    }
+    [cell.textLabel setText:[[self.myPhone objectAtIndex:indexPath.row] valueForKey:@"name"]];
+    [cell.detailTextLabel setText:[[self.myPhone objectAtIndex:indexPath.row] valueForKey:@"number"]];
+    return cell;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -38,6 +124,8 @@
         [self.phone setTitleColor:[UIColor colorWithWhite:0.0f alpha:0.7f] forState:UIControlStateNormal];
         [self.phone setBackgroundImage:highlighted forState:UIControlStateHighlighted];
         [self addSubview:self.phone];
+        
+        self.search = [[NSMutableArray alloc] init];
     }
     
     self.sms = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -59,6 +147,12 @@
     [self.weibo addTarget:self action:@selector(weiboAction) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)ExtraCellLineHidden: (UITableView *)tableView{
+    UIView *view =[[UIView alloc]init];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
+}
+
 #pragma mark - there are 2 methods waiting for Meirtz
 
 - (void)phoneAction{
@@ -67,24 +161,62 @@
         self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     }
     self.window.windowLevel = UIWindowLevelAlert;
-    UIViewController *popVC = [[UIViewController alloc] init];
-    self.window.rootViewController = popVC;
+    self.popVC = [[UIViewController alloc] init];
+    self.navi = [[UINavigationController alloc] initWithRootViewController:self.popVC];
+    self.window.rootViewController = self.navi;
     [self.window makeKeyAndVisible];
-    [popVC.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, 500)];
+    
+    [self.navi.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2)];
     UIView *phoneView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [popVC.view addSubview:phoneView];
+    [self.popVC.view addSubview:phoneView];
     [UIView animateWithDuration:0.5f animations:^{
-        [popVC.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2)];
+        [self.popVC.view setCenter:CGPointMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height/2)];
         [phoneView setBackgroundColor:[UIColor whiteColor]];
         [phoneView setAlpha:0.8];
     }];
     
-    UIScrollView *phoneScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height*2)];
-    phoneScrollView.pagingEnabled = NO;
-    phoneScrollView.showsVerticalScrollIndicator = YES;
-    phoneScrollView.delegate = self;
-    [popVC.view addSubview:phoneScrollView];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissPhone)];
+    self.popVC.navigationItem.rightBarButtonItem = rightItem;
     
+    self.popVC.edgesForExtendedLayout = UIRectEdgeNone;
+    self.popVC.extendedLayoutIncludesOpaqueBars =NO;
+    self.popVC.modalPresentationCapturesStatusBarAppearance =NO;
+    self.popVC.navigationController.navigationBar.translucent =NO;
+
+    
+    if (self.myPhone == NULL) {
+        self.myPhone = [[NSMutableArray alloc] init];
+    }
+    [self.myPhone removeAllObjects];
+
+    if (self.conTable == nil) {
+        self.conTable = [[UITableView alloc] initWithFrame:self.popVC.view.frame style:UITableViewStylePlain];
+        UISearchBar * searchBar = [[UISearchBar alloc] init];
+        searchBar.frame = CGRectMake(0, 0, self.conTable.bounds.size.width, 0);
+        searchBar.delegate = self;
+        searchBar.showsCancelButton = NO;
+        searchBar.placeholder = @"搜索联系人";
+        searchBar.barStyle = UIBarStyleDefault;
+        [searchBar sizeToFit];
+        self.conTable.opaque= NO;
+        [self.conTable setBackgroundColor:[UIColor clearColor]];
+        UIView *view = [[UIView alloc]init];
+        [view setBackgroundColor:[UIColor clearColor]];
+        view.opaque = NO;
+        [self.conTable setBackgroundView:view];
+        [self ExtraCellLineHidden:self.conTable];
+        self.conTable.tableHeaderView = searchBar;
+    }
+    [self.window setAlpha:0.0f];
+    [UIView animateWithDuration:0.3f delay:0.0 options:UIViewAnimationCurveLinear animations:^(void){
+        [self.conTable setDataSource:self];
+        [self.conTable setDelegate:self];
+        [self.popVC.view addSubview:self.conTable];
+        [self.window setScreen:[UIScreen mainScreen]];
+        [self.window setAlpha:1.0f];
+        [self.window setHidden:NO];
+        [self.window setUserInteractionEnabled:YES];
+    } completion:nil];
     
     
     ABAddressBookRef addressBook = nil;
@@ -105,15 +237,18 @@
     
     CFArrayRef results = ABAddressBookCopyArrayOfAllPeople(addressBook);
     
-    NSLog(@"%@" ,results);
+    //NSLog(@"%@" ,results);
     
+#ifdef __arm64__
+    long peopleCount = CFArrayGetCount(results);
+#else
     int peopleCount = CFArrayGetCount(results);
+#endif
     
     for (int i=0; i<peopleCount; i++)
     {
         ABRecordRef record = CFArrayGetValueAtIndex(results, i);
         
-        NSLog(@"%@" ,record);
         
         NSString *fn,*ln,*fullname;
         fn = ln = fullname = nil;
@@ -137,36 +272,52 @@
             vtmp = NULL;
         }
         
-        NSLog(@"%@ ,%@" ,fn ,ln);
+        //NSLog(@"%@ ,%@" ,fn ,ln);
         
         // 读取电话
-        ABMultiValueRef phones = ABRecordCopyValue(record, kABPersonPhoneProperty);
-        int phoneCount = ABMultiValueGetCount(phones);
         
-        for (int j=0; j<phoneCount; j++)
-        {
-            // label
-            CFStringRef lable = ABMultiValueCopyLabelAtIndex(phones, j);
-            // phone number
-            CFStringRef phonenumber = ABMultiValueCopyValueAtIndex(phones, j);
+        if (record) {
+            ABMultiValueRef phones = ABRecordCopyValue(record, kABPersonPhoneProperty);
+            if (phones) {
+#ifdef __arm64__
+                long phoneCount = ABMultiValueGetCount(phones);;
+#else
+                int phoneCount = ABMultiValueGetCount(phones);
+#endif
+                for (int j=0; j<phoneCount; j++)
+                {
+                    // label
+                    CFStringRef lable = ABMultiValueCopyLabelAtIndex(phones, j);
+                    // phone number
+                    CFStringRef phonenumber = ABMultiValueCopyValueAtIndex(phones, j);
+                    
+                    // localize label
+                    CFStringRef ll = ABAddressBookCopyLocalizedLabel(lable);
+                    if (fn != nil && ln != nil) {
+                        fullname = [ln stringByAppendingString:fn];
+                    }else if(fn == nil && ln != nil){
+                        fullname = ln;
+                    }else if(ln == nil && fn != nil){
+                        fullname = fn;
+                    }else{
+                        fullname = @" ";
+                    }
+                    
+                    [self.myPhone addObject:@{@"name":fullname,@"number":(__bridge NSString *)phonenumber}];
+                    
+                    if (ll)
+                        CFRelease(ll);
+                    if (lable)
+                        CFRelease(lable);
+                    if (phonenumber)
+                        CFRelease(phonenumber);
+                }
+                
+                record = NULL;
+                CFRelease(phones);
+            }
             
-            // localize label
-            CFStringRef ll = ABAddressBookCopyLocalizedLabel(lable);
-            
-            NSLog(@"\t%@ ,%@,%@" ,(__bridge NSString *)lable ,(__bridge NSString *)ll,(__bridge NSString *)phonenumber);
-            
-            if (ll)
-                CFRelease(ll);
-            if (lable)
-                CFRelease(lable);
-            if (phonenumber)
-                CFRelease(phonenumber);
         }
-        
-        if (phones)
-            CFRelease(phones);
-        
-        record = NULL;
     }
     
     if (results)
@@ -176,6 +327,29 @@
     if (addressBook)
         CFRelease(addressBook);
     addressBook = NULL;
+    [self.conTable reloadData];
+}
+
+- (void)dismissPhone{
+    [self.popVC.navigationItem setRightBarButtonItem:nil animated:NO];
+    [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationCurveLinear animations:^(void){
+        [self.popVC removeFromParentViewController];
+        [self.window setAlpha:0.0f];
+        [self.window setUserInteractionEnabled:NO];
+        [self.window resignKeyWindow];
+        [self.window resignFirstResponder];
+        [self.window removeFromSuperview];
+        [self.window setUserInteractionEnabled:NO];
+    } completion:nil];
+    
+    
+    [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
+    [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.search removeAllObjects];
+        [self.myPhone removeAllObjects];
+        [self.conTable reloadData];
+    });
 }
 
 - (void)smsAction{
@@ -188,7 +362,10 @@
     UIViewController *popVC = [[UIViewController alloc] init];
     self.window.rootViewController = popVC;
     [self.window makeKeyAndVisible];
-   
+     [self.window setScreen:[UIScreen mainScreen]];
+    [self.window setHidden:NO];
+    [self.window setAlpha:1.0f];
+    [self.window setUserInteractionEnabled:YES];
     MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
     picker.messageComposeDelegate = self;
     picker.body=@"BC你好!";
@@ -205,8 +382,10 @@
     UIViewController *popVC = [[UIViewController alloc] init];
     self.window.rootViewController = popVC;
     [self.window makeKeyAndVisible];
-
-    
+    [self.window setScreen:[UIScreen mainScreen]];
+    [self.window setHidden:NO];
+    [self.window setAlpha:1.0f];
+    [self.window setUserInteractionEnabled:YES];
     SLComposeViewController *slComposerSheet = [[SLComposeViewController alloc] init];
     
     [slComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
