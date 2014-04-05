@@ -98,10 +98,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     if ([self.conTable tag]==222) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",[[self.search objectAtIndex:indexPath.row] valueForKey:@"number"]]]];
+        UIAlertView *phoneAlert = [[UIAlertView alloc] initWithTitle:@"Phone" message:[NSString stringWithFormat:@"拨打%@?\n(%@)",[[self.search objectAtIndex:indexPath.row] valueForKey:@"number"],[[self.search objectAtIndex:indexPath.row] valueForKey:@"name"]] delegate:self cancelButtonTitle:@"取消 " otherButtonTitles:@"是的", nil];
+        [phoneAlert show];
+        self.row = [NSString stringWithString:[[self.search objectAtIndex:indexPath.row] valueForKey:@"number"]];
     }else{
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",[[self.myPhone objectAtIndex:indexPath.row] valueForKey:@"number"]]]];
+        [[[UIAlertView alloc] initWithTitle:@"Phone" message:[NSString stringWithFormat:@"拨打%@?\n(%@)",[[self.myPhone objectAtIndex:indexPath.row] valueForKey:@"number"],[[self.myPhone objectAtIndex:indexPath.row] valueForKey:@"name"]] delegate:self cancelButtonTitle:@"取消 " otherButtonTitles:@"是的", nil] show];
+        self.row = [NSString stringWithString:[[self.myPhone objectAtIndex:indexPath.row] valueForKey:@"number"]];
     }
 }
 
@@ -167,18 +171,15 @@
 }
 
 - (void)activeWindow{
-    self.window.windowLevel = UIWindowLevelAlert;
+    self.window.windowLevel = UIWindowLevelNormal+levelOffset;
     [self.window makeKeyAndVisible];
     [self.window becomeFirstResponder];
     [self.window setHidden:NO];
     [self.window setAlpha:1.0f];
     [self.window setUserInteractionEnabled:YES];
-    //[self.window setScreen:[UIScreen mainScreen]];
 }
 
 - (void)deactiveWindow{
-    //self.window.windowLevel = UIWindowLevelNormal - 100;
-    //[self.window removeFromSuperview];
     [self.window resignFirstResponder];
     [self.window resignKeyWindow];
     [self.window setHidden:YES];
@@ -238,13 +239,14 @@
         self.conTable.tableHeaderView = searchBar;
     });
     [self.window setAlpha:0.0f];
+    
     [self.conTable setDataSource:self];
     [self.conTable setDelegate:self];
     if (![[self.popVC.view subviews] containsObject:self.conTable]) {
         [self.popVC.view addSubview:self.conTable];
     };
     
-    self.window.windowLevel = UIWindowLevelAlert;
+    self.window.windowLevel = UIWindowLevelNormal+levelOffset;
     [self.window makeKeyAndVisible];
     [self.window becomeFirstResponder];
     [self.window setHidden:NO];
@@ -445,6 +447,15 @@
     }];
     [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
     [[UIApplication sharedApplication].windows.firstObject becomeFirstResponder];
+}
+
+#pragma mark - UIAlert
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0) {
+        [self dismissPhone];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",self.row]]];
+    }
 }
 
 
