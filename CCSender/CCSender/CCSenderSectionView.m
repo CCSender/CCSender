@@ -235,6 +235,9 @@
         UISearchBar * searchBar = [[UISearchBar alloc] init];
         searchBar.frame = CGRectMake(0, 0, self.conTable.bounds.size.width, 0);
         searchBar.delegate = self;
+        CGRect rect = self.popVC.view.frame;
+        rect.size.height -= 64;
+        self.conTable = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
         searchBar.showsCancelButton = NO;
         searchBar.placeholder = @"搜索联系人";
         searchBar.barStyle = UIBarStyleDefault;
@@ -403,7 +406,7 @@
     [self activeWindow];
     MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
     picker.messageComposeDelegate = self;
-    picker.body=@"BC你好!";
+    //picker.body=@"BC你好!";
     [popVC1 presentViewController:picker animated:YES completion:nil];
 }
 
@@ -413,7 +416,7 @@
     [self activeWindow];
     
     SLComposeViewController* slComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
-    [slComposerSheet setInitialText:@"BC已哭→←_→←"];
+    //[slComposerSheet setInitialText:@"BC已哭→←_→←"];
     [slComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
         [self deactiveWindow];
         [[UIApplication sharedApplication].windows.firstObject becomeKeyWindow];
